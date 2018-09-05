@@ -35,7 +35,7 @@ class HangmanImageViewer extends JFrame  {
 
         if (wrongGuesses >= 1) {
             try {
-                img = ImageIO.read(new File("resources\\main\\h0.png"));
+                img = ImageIO.read(new File("src\\resources\\main\\h0.png"));
             }
             catch (IOException ioe) { System.exit(0); }
 
@@ -47,7 +47,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 2) {
                 try {
-                    img1 = ImageIO.read(new File("resources\\main\\h1.png"));
+                    img1 = ImageIO.read(new File("src\\resources\\main\\h1.png"));
                     g.drawImage(img1, 10, 100, jp) ;
                 }
                 catch (IOException ioe) { System.exit(0);}
@@ -55,7 +55,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 3) {
                 try {
-                    img2 = ImageIO.read(new File("resources\\main\\h2.png"));
+                    img2 = ImageIO.read(new File("src\\resources\\main\\h2.png"));
                     g.drawImage(img2, 10, 100, jp) ;
                 }
                 catch (IOException ioe) { System.exit(0);}
@@ -63,7 +63,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 4) {
                 try {
-                    img3 = ImageIO.read(new File("resources\\main\\h3.png"));
+                    img3 = ImageIO.read(new File("src\\resources\\main\\h3.png"));
                     g.drawImage(img3, 10, 100, jp) ;
                 }
                 catch (IOException ioe) { System.exit(0);}
@@ -71,7 +71,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 5) {
                 try {
-                    img4 = ImageIO.read(new File("resources\\main\\h4.png"));
+                    img4 = ImageIO.read(new File("src\\resources\\main\\h4.png"));
                     g.drawImage(img4, 10, 100, jp) ;
                 }
                 catch (IOException ioe) {System.exit(0);}
@@ -79,7 +79,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 6) {
                 try {
-                    img5 = ImageIO.read(new File("resources\\main\\h5.png"));
+                    img5 = ImageIO.read(new File("src\\resources\\main\\h5.png"));
                     g.drawImage(img5, 10, 100, jp) ;
                 }
                 catch (IOException ioe) {System.exit(0);}
@@ -87,7 +87,7 @@ class HangmanImageViewer extends JFrame  {
 
             if (wrongGuesses >= 7) {
                 try {
-                    img6 = ImageIO.read(new File("resources\\main\\h6.png"));
+                    img6 = ImageIO.read(new File("src\\resources\\main\\h6.png"));
                     g.drawImage(img5, 10, 100, jp);
                     JOptionPane.showMessageDialog(null, "You lose!"+
                             "\nTo play again choose NEW GAME button." +

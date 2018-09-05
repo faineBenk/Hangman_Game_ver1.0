@@ -31,7 +31,7 @@ class WordTransformer {
         BufferedReader in = null;
         try {
             FileReader wordList = new FileReader(
-                    "resources\\main\\words_eng.txt");
+                    "src\\resources\\main\\words_eng.txt");
             in = new BufferedReader(wordList);
 
             while((str = in.readLine())!= null) {
