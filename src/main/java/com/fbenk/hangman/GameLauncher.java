@@ -149,7 +149,6 @@ public class GameLauncher extends JFrame implements ActionListener {
      * processes player`s actions.
      * @param e holds player`s press.
      */
-    @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         wordTransformer.getWordFromTextFile();
