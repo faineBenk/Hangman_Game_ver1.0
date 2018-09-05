@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HangmanGame.iml" filepath="$PROJECT_DIR$/HangmanGame.iml" />
       <module fileurl="file://$PROJECT_DIR$/hangman-jar.iml" filepath="$PROJECT_DIR$/hangman-jar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hangmanJar/hangmanJar.iml" filepath="$PROJECT_DIR$/hangmanJar/hangmanJar.iml" />
     </modules>
   </component>
 </project>

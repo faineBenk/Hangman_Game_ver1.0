@@ -7,12 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hangman-jar" />
-        <module name="HangmanGame" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="hangman-jar" target="1.5" />
-      <module name="HangmanGame" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
