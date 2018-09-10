@@ -1,11 +1,10 @@
 package com.fbenk.hangman;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
-
-import static com.fbenk.hangman.GameLauncher.rightGuesses;
 
 /**
  * Class WordTransformer interacts with text file
@@ -15,23 +14,30 @@ import static com.fbenk.hangman.GameLauncher.rightGuesses;
 
 class WordTransformer {
 
-    private String[] arrayOfWords;
-    private  String takenRandomWord;
     private int a = 0;
     private int b = 1000;
-    static char[] randomWord;
+    private static char[] randomWord;
+    private static char[] rightGuesses;
+
+    public static char[] getRandomWord() {
+        return randomWord;
+    }
+
+    public static char[] getRightGuesses() {
+        return rightGuesses;
+    }
 
     /**
      * @return random word from text file.
      */
 
     public String getWordFromTextFile() {
+        String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
         LinkedList<String> list = new LinkedList<String>();
         String str;
         BufferedReader in = null;
         try {
-            FileReader wordList = new FileReader(
-                    "src\\resources\\main\\words_eng.txt");
+            FileReader wordList = new FileReader(path + "\\words_eng.txt");
             in = new BufferedReader(wordList);
 
             while((str = in.readLine())!= null) {
@@ -46,7 +52,7 @@ class WordTransformer {
                 System.exit(-1);
             }
         }
-        arrayOfWords = list.toArray(new String[list.size()]);
+        String[] arrayOfWords = list.toArray(new String[list.size()]);
         int random_number = a + (int) (Math.random() * b);
         String word = arrayOfWords[random_number];
         return word;
@@ -58,13 +64,13 @@ class WordTransformer {
      */
 
     // change '_' to letter if user guessed any letter
-    public void convertStringToChar() {
-        takenRandomWord = getWordFromTextFile();
+    public char[] convertStringToChar() {
+        String takenRandomWord = getWordFromTextFile();
         randomWord = takenRandomWord.toCharArray();
         rightGuesses = new char[randomWord.length];
         for (int i = 0; i < rightGuesses.length; i++) {
             rightGuesses[i] = '_';
         }
+        return rightGuesses;
     }
-
 }
