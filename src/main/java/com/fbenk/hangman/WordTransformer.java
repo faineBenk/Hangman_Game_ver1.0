@@ -14,8 +14,6 @@ import java.util.LinkedList;
 
 class WordTransformer {
 
-    private int a = 0;
-    private int b = 1000;
     private static char[] randomWord;
     private static char[] rightGuesses;
 
@@ -46,16 +44,21 @@ class WordTransformer {
         }
         catch (IOException exc) { exc.printStackTrace(); }
         finally {
-            try { in.close(); }
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }
             catch (IOException e) {
                 System.out.println(e.getMessage());
                 System.exit(-1);
             }
         }
-        String[] arrayOfWords = list.toArray(new String[list.size()]);
+        String[] arrayOfWords = list.toArray(new String[0]);
+        int a = 0;
+        int b = 1000;
         int random_number = a + (int) (Math.random() * b);
-        String word = arrayOfWords[random_number];
-        return word;
+        return arrayOfWords[random_number];
     }
 
     /**
@@ -64,13 +67,12 @@ class WordTransformer {
      */
 
     // change '_' to letter if user guessed any letter
-    public char[] convertStringToChar() {
+    public void convertStringToChar() {
         String takenRandomWord = getWordFromTextFile();
         randomWord = takenRandomWord.toCharArray();
         rightGuesses = new char[randomWord.length];
         for (int i = 0; i < rightGuesses.length; i++) {
             rightGuesses[i] = '_';
         }
-        return rightGuesses;
     }
 }

@@ -22,7 +22,7 @@ public class HiddenWordViewer extends JComponent {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (GameFrame.getStateOfGame() == 1) {
+        if (GameFrame.getStateOfGame()) {
             String result = "";
             for (int i = 0; i < WordTransformer.getRightGuesses().length; i++) {
                 result += WordTransformer.getRightGuesses()[i] + " ";

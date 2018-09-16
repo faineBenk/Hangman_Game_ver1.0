@@ -6,31 +6,42 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
+import static com.fbenk.hangman.GameFrame.ButtonValues.EXIT_GAME;
+
 public class GameFrame extends JFrame implements ActionListener {
 
-    private static final String START_GAME = "CHOOSE FILE";
-    private static final String EXIT_GAME = "EXIT";
-    private static final String NEW_GAME = "NEW GAME";
-    private static JPanel mainPanel, rightPanel, leftPanel, bottomPanel, belowPanel;
-    private static int stateOfGame = 0;
+    private static JPanel belowPanel, bottomPanel;
+    private static boolean stateOfGame = false;
     private static int wrongGuesses = 0;
 
+    public enum ButtonValues {
 
-    public static Component getBottomPanel() {
-        return bottomPanel;
+        START_GAME {
+            public String toString() {
+                return "CHOOSE FILE";
+            }
+        },
+
+        EXIT_GAME {
+            public String toString() {
+                return "EXIT";
+            }
+        },
+
+        NEW_GAME {
+            public String toString() {
+                return "NEW GAME";
+            }
+        }
     }
 
-    public static Component getBelowPanel() {
-        return belowPanel;
-    }
+    public static Component getBottomPanel() { return bottomPanel; }
 
-    public static int getStateOfGame() {
-        return stateOfGame;
-    }
+    public static Component getBelowPanel() { return belowPanel; }
 
-    public static int getWrongGuesses(){
-        return wrongGuesses;
-    }
+    public static boolean getStateOfGame() { return stateOfGame; }
+
+    public static int getWrongGuesses(){ return wrongGuesses; }
 
     private WordTransformer wordTransformer = new WordTransformer();
 
@@ -42,9 +53,9 @@ public class GameFrame extends JFrame implements ActionListener {
         super("HANGMAN");
         setSize(900, 900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainPanel = new JPanel();
-        rightPanel = new JPanel();
-        leftPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
+        JPanel leftPanel = new JPanel();
         bottomPanel = new JPanel();
         belowPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(3, 0));
@@ -68,17 +79,18 @@ public class GameFrame extends JFrame implements ActionListener {
      */
 
     private void createReplayButtons (JPanel belowPanel) {
-        JButton playAgain = new JButton(NEW_GAME);
+        JButton playAgain = new JButton(String.valueOf(ButtonValues.NEW_GAME));
         playAgain.setSize(100, 100);
-        playAgain.setActionCommand(NEW_GAME);
+        playAgain.setActionCommand(String.valueOf(ButtonValues.NEW_GAME));
         playAgain.addActionListener(this);
-        JButton exit = new JButton(EXIT_GAME);
-        exit.setActionCommand(EXIT_GAME);
+        JButton exit = new JButton(String.valueOf(EXIT_GAME));
+        exit.setActionCommand(String.valueOf(EXIT_GAME));
         exit.addActionListener(this);
         exit.setSize(100, 100);
         belowPanel.add(playAgain);
         belowPanel.add(exit);
     }
+
 
     private void createButtons(JPanel bottomPanel) {
         JButton[] buttons = new JButton[26];
@@ -99,8 +111,8 @@ public class GameFrame extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
         JMenu gameMenu = new JMenu("PLAY");
         menuBar.add(gameMenu);
-        addItemToMenu(gameMenu,START_GAME);
-        addItemToMenu(gameMenu,EXIT_GAME);
+        addItemToMenu(gameMenu,String.valueOf(ButtonValues.START_GAME));
+        addItemToMenu(gameMenu,String.valueOf(EXIT_GAME));
     }
 
     private void addItemToMenu(JMenu menu, String itemName) {
@@ -108,6 +120,7 @@ public class GameFrame extends JFrame implements ActionListener {
         menuItem.addActionListener(this);
         menu.add(menuItem);
     }
+
 
     /**
      * Method overrides super method from interface ActionListener and
@@ -118,16 +131,16 @@ public class GameFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         wordTransformer.getWordFromTextFile();
-        if (cmd.equals(START_GAME)) {
-            stateOfGame = 1;
+        if (cmd.equals(String.valueOf(ButtonValues.START_GAME))) {
+            stateOfGame = true;
             bottomPanel.setVisible(true);
             wordTransformer.convertStringToChar();
             repaint();
         }
-        else if (cmd.length() == 1 && stateOfGame == 1) {
+        else if (cmd.length() == 1 && stateOfGame) {
             if (wordTransformer.getWordFromTextFile().contains(cmd.toLowerCase())) {
                 for (int i = 0; i < WordTransformer.getRandomWord().length; i++) {
-                    if (cmd.toLowerCase().charAt(0) ==WordTransformer.getRandomWord()[i]) {
+                    if (cmd.toLowerCase().charAt(0) == WordTransformer.getRandomWord()[i]) {
                         WordTransformer.getRightGuesses()[i] = cmd.toLowerCase().charAt(0);
                     }
                     if (Arrays.equals(WordTransformer.getRightGuesses(), WordTransformer.getRandomWord())
@@ -149,15 +162,14 @@ public class GameFrame extends JFrame implements ActionListener {
         }
 
         //replay
-        else if (cmd.equals(NEW_GAME) && stateOfGame == 1) {
-
+        else if (cmd.equals(String.valueOf(ButtonValues.NEW_GAME)) && stateOfGame) {
             wrongGuesses = 0;
             bottomPanel.setVisible(true);
             wordTransformer.convertStringToChar();
             repaint();
 
-        } else if (cmd.equals(EXIT_GAME)) {
-            stateOfGame = 2;
+        } else if (cmd.equals(String.valueOf(ButtonValues.EXIT_GAME))) {
+            stateOfGame = false;
             System.exit(0);
         }
     }
