@@ -30,33 +30,19 @@ class WordTransformer {
      */
 
     public String getWordFromTextFile() {
-        String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
-        LinkedList<String> list = new LinkedList<String>();
-        String str;
-        BufferedReader in = null;
-        try {
-            FileReader wordList = new FileReader(path + "\\words_eng.txt");
-            in = new BufferedReader(wordList);
-
-            while((str = in.readLine())!= null) {
-                list.add(str);
-            }
-        }
-        catch (IOException exc) { exc.printStackTrace(); }
-        finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            }
-            catch (IOException e) {
-                System.out.println(e.getMessage());
-                System.exit(-1);
-            }
-        }
-        String[] arrayOfWords = list.toArray(new String[0]);
         int a = 0;
         int b = 1000;
+        String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
+        LinkedList<String> list = new LinkedList<>();
+        String str;
+        try (BufferedReader in = new BufferedReader(new FileReader(path + "\\words_eng.txt"))) {
+
+            while((str =in.readLine())!=null) { list.add(str); }
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] arrayOfWords = list.toArray(new String[0]);
         int random_number = a + (int) (Math.random() * b);
         return arrayOfWords[random_number];
     }
