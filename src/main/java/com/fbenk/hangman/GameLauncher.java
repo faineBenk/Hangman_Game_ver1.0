@@ -7,10 +7,11 @@ package com.fbenk.hangman;
 
 public class GameLauncher {
 
-    public static void main(String[] args) {
-        WordTransformer wtf  = new WordTransformer();
-        GameFrame newGame = new GameFrame(wtf);
+    public static void main(String[] args) throws Exception {
+        GameFrame newGame = new GameFrame();
         newGame.setVisible(true);
+        WordState.loadClass();
+
     }
 
 }

@@ -3,15 +3,11 @@ package com.fbenk.hangman;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.fbenk.hangman.WordState.showResult;
+
 public class HiddenWordViewer extends JComponent {
 
-    private WordTransformer wtf;
     private HangmanImageViewer hangmanImageViewer = new HangmanImageViewer();
-
-    public HiddenWordViewer(WordTransformer wtf) {
-        this.wtf = wtf;
-    }
-
 
     /**
      * Method overrides super method from class Window and
@@ -22,12 +18,8 @@ public class HiddenWordViewer extends JComponent {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (GameFrame.getStateOfGame()) {
-            String result = "";
-            for (int i = 0; i < WordTransformer.getRightGuesses().length; i++) {
-                result += WordTransformer.getRightGuesses()[i] + " ";
-            }
-            g.drawString(result, 20, 175);
+        if (GameFrame.getIsGameStarted()) {
+            g.drawString(showResult(), 20, 175);
             hangmanImageViewer.drawImage(g);
         }
     }

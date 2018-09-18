@@ -12,24 +12,21 @@ import java.util.LinkedList;
  * when player presses a button.
  */
 
-class WordTransformer {
+class WordState {
 
     private static char[] randomWord;
     private static char[] rightGuesses;
 
-    public static char[] getRandomWord() {
-        return randomWord;
-    }
+    public static char[] getRandomWord() { return randomWord; }
 
-    public static char[] getRightGuesses() {
-        return rightGuesses;
-    }
+    public static char[] getRightGuesses() { return rightGuesses; }
 
     /**
      * @return random word from text file.
      */
 
-    public String getWordFromTextFile() {
+
+    public static String getWordFromTextFile() {
         int a = 0;
         int b = 1000;
         String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
@@ -53,12 +50,19 @@ class WordTransformer {
      */
 
     // change '_' to letter if user guessed any letter
-    public void convertStringToChar() {
-        String takenRandomWord = getWordFromTextFile();
-        randomWord = takenRandomWord.toCharArray();
+    public static void convertStringToChar() {
+        randomWord  = getWordFromTextFile().toCharArray();
         rightGuesses = new char[randomWord.length];
         for (int i = 0; i < rightGuesses.length; i++) {
             rightGuesses[i] = '_';
         }
+    }
+
+    public static String showResult() {
+        String result = "";
+        for (int i = 0; i < rightGuesses.length; i++) {
+            result += rightGuesses[i] + " ";
+        }
+        return result;
     }
 }

@@ -6,50 +6,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-import static com.fbenk.hangman.GameFrame.ButtonValues.EXIT_GAME;
+import static com.fbenk.hangman.ButtonEnum.*;
+import static com.fbenk.hangman.WordState.convertStringToChar;
+import static com.fbenk.hangman.WordState.getWordFromTextFile;
 
 public class GameFrame extends JFrame implements ActionListener {
 
     private static JPanel belowPanel, bottomPanel;
-    private static boolean stateOfGame = false;
+    private static boolean isGameStarted;
     private static int wrongGuesses = 0;
-
-    public enum ButtonValues {
-
-        START_GAME {
-            public String toString() {
-                return "CHOOSE FILE";
-            }
-        },
-
-        EXIT_GAME {
-            public String toString() {
-                return "EXIT";
-            }
-        },
-
-        NEW_GAME {
-            public String toString() {
-                return "NEW GAME";
-            }
-        }
-    }
 
     public static Component getBottomPanel() { return bottomPanel; }
 
     public static Component getBelowPanel() { return belowPanel; }
 
-    public static boolean getStateOfGame() { return stateOfGame; }
+    public static boolean getIsGameStarted() { return isGameStarted; }
 
     public static int getWrongGuesses(){ return wrongGuesses; }
 
-    private WordTransformer wordTransformer = new WordTransformer();
 
     /**
      * Constructor opens the main frame, where panels were set,
      * adds buttons to the bottom and menu below.
      */
-    public GameFrame(WordTransformer wtf) {
+    public GameFrame() {
         super("HANGMAN");
         setSize(900, 900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -69,7 +49,7 @@ public class GameFrame extends JFrame implements ActionListener {
         createReplayButtons(belowPanel);
         createButtons(bottomPanel);
         createMenu();
-        mainPanel.add(new HiddenWordViewer(wtf));
+        mainPanel.add(new HiddenWordViewer());
     }
 
     /**
@@ -79,9 +59,9 @@ public class GameFrame extends JFrame implements ActionListener {
      */
 
     private void createReplayButtons (JPanel belowPanel) {
-        JButton playAgain = new JButton(String.valueOf(ButtonValues.NEW_GAME));
+        JButton playAgain = new JButton(String.valueOf(NEW_GAME));
         playAgain.setSize(100, 100);
-        playAgain.setActionCommand(String.valueOf(ButtonValues.NEW_GAME));
+        playAgain.setActionCommand(String.valueOf(NEW_GAME));
         playAgain.addActionListener(this);
         JButton exit = new JButton(String.valueOf(EXIT_GAME));
         exit.setActionCommand(String.valueOf(EXIT_GAME));
@@ -94,9 +74,9 @@ public class GameFrame extends JFrame implements ActionListener {
 
     private void createButtons(JPanel bottomPanel) {
         JButton[] buttons = new JButton[26];
-        String[] alph = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-                "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-                "W", "X", "Y", "Z" };
+        String[] alph = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+                "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+                "w", "x", "y", "z" };
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(alph[i]);
             buttons[i].setSize(40, 40);
@@ -111,7 +91,7 @@ public class GameFrame extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
         JMenu gameMenu = new JMenu("PLAY");
         menuBar.add(gameMenu);
-        addItemToMenu(gameMenu,String.valueOf(ButtonValues.START_GAME));
+        addItemToMenu(gameMenu,String.valueOf(START_GAME));
         addItemToMenu(gameMenu,String.valueOf(EXIT_GAME));
     }
 
@@ -128,48 +108,45 @@ public class GameFrame extends JFrame implements ActionListener {
      * @param e holds player`s press.
      */
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        wordTransformer.getWordFromTextFile();
-        if (cmd.equals(String.valueOf(ButtonValues.START_GAME))) {
-            stateOfGame = true;
-            bottomPanel.setVisible(true);
-            wordTransformer.convertStringToChar();
+        if (cmd.equals(String.valueOf(START_GAME))) {
+            isGameStarted = true;
+            convertStringToChar();
             repaint();
         }
-        else if (cmd.length() == 1 && stateOfGame) {
-            if (wordTransformer.getWordFromTextFile().contains(cmd.toLowerCase())) {
-                for (int i = 0; i < WordTransformer.getRandomWord().length; i++) {
-                    if (cmd.toLowerCase().charAt(0) == WordTransformer.getRandomWord()[i]) {
-                        WordTransformer.getRightGuesses()[i] = cmd.toLowerCase().charAt(0);
+        else if (cmd.length() == 1 && isGameStarted) {
+            if (getWordFromTextFile().contains(cmd)) {
+                for (int i = 0; i < WordState.getRandomWord().length; i++) {
+                    if (cmd.charAt(0) == WordState.getRandomWord()[i]) {
+                        WordState.getRightGuesses()[i] = cmd.charAt(0);
                     }
-                    if (Arrays.equals(WordTransformer.getRightGuesses(), WordTransformer.getRandomWord())
+                    if (Arrays.equals(WordState.getRightGuesses(), WordState.getRandomWord())
                             && wrongGuesses < 7) {
-                        bottomPanel.setVisible(false);
-                        belowPanel.setVisible(true);
                         // increase of parts of the body if letter`s wrong
                         JOptionPane.showMessageDialog(null,
                                 "You won! " + "\nTo play again choose NEW GAME button.");
                     }
                 }
             }
-            else if (!wordTransformer.getWordFromTextFile().contains(cmd.toLowerCase())) {
-                JOptionPane.showMessageDialog(null, "Sorry, " + cmd
-                        + " is not part of the word.");
+            else if (!getWordFromTextFile().contains(cmd)) {
+                JOptionPane.showMessageDialog(null,
+                        "Sorry, " + cmd + " is not part of the word.");
                 wrongGuesses++;
             }
             repaint();
         }
 
         //replay
-        else if (cmd.equals(String.valueOf(ButtonValues.NEW_GAME)) && stateOfGame) {
+        else if (cmd.equals(String.valueOf(NEW_GAME)) && isGameStarted) {
             wrongGuesses = 0;
             bottomPanel.setVisible(true);
-            wordTransformer.convertStringToChar();
+            convertStringToChar();
             repaint();
 
-        } else if (cmd.equals(String.valueOf(ButtonValues.EXIT_GAME))) {
-            stateOfGame = false;
+        } else if (cmd.equals(String.valueOf(EXIT_GAME))) {
+            isGameStarted = false;
             System.exit(0);
         }
     }
