@@ -1,7 +1,6 @@
 package com.fbenk.hangman;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -29,10 +28,10 @@ class WordState {
     public static String getWordFromTextFile() {
         int a = 0;
         int b = 1000;
-        String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
+        String fileName = WordState.class.getResource("words_eng.txt").getPath();
         LinkedList<String> list = new LinkedList<>();
         String str;
-        try (BufferedReader in = new BufferedReader(new FileReader(path + "\\words_eng.txt"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
 
             while((str =in.readLine())!=null) { list.add(str); }
             } catch (IOException e) {

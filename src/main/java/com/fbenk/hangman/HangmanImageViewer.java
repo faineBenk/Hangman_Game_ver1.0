@@ -36,42 +36,41 @@ class HangmanImageViewer extends JFrame {
 
     public void drawImage(Graphics g) {
 
-        String path = new File("src\\main\\resources\\com\\fbenk\\hangman").getAbsolutePath();
         repaint();
 
         if (getWrongGuesses() >= 1) {
-            img = (BufferedImage) drawOneImage(path + "\\h0.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h0.png").getPath());
             g.drawImage(img, 0, 0, GameFrame.getBelowPanel());
 
         }
 
         if (getWrongGuesses() >= 2) {
-            img = (BufferedImage) drawOneImage(path + "\\h1.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h1.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
         }
 
         if (getWrongGuesses() >= 3) {
-            img = (BufferedImage) drawOneImage(path + "\\h2.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h2.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
         }
 
         if (getWrongGuesses() >= 4) {
-            img = (BufferedImage) drawOneImage(path + "\\h3.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h3.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
         }
 
         if (getWrongGuesses() >= 5) {
-            img = (BufferedImage) drawOneImage(path + "\\h4.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h4.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
         }
 
         if (getWrongGuesses() >= 6) {
-            img = (BufferedImage) drawOneImage(path + "\\h5.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h5.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
         }
 
         if (getWrongGuesses() >= 7) {
-            img = (BufferedImage) drawOneImage(path + "\\h6.png");
+            img = (BufferedImage) drawOneImage(HangmanImageViewer.class.getResource("h6.png").getPath());
             g.drawImage(img,0, 0, setBelowPanel());
             JOptionPane.showMessageDialog(null, "You lose!"+
                     "\nTo play again choose NEW GAME button." +
