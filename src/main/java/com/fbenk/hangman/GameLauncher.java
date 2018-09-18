@@ -6,11 +6,8 @@ package com.fbenk.hangman;
  */
 
 public class GameLauncher {
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         GameFrame newGame = new GameFrame();
         newGame.setVisible(true);
-
     }
-
 }
