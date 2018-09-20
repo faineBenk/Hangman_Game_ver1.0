@@ -13,10 +13,10 @@ import java.util.LinkedList;
 
 class WordState {
 
-    private static char[] randomWord;
+    private char[] randomWord;
     private static char[] rightGuesses;
 
-    public static char[] getRandomWord() { return randomWord; }
+    public char[] getRandomWord() { return randomWord; }
 
     public static char[] getRightGuesses() { return rightGuesses; }
 
