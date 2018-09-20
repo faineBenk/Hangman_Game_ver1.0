@@ -11,7 +11,8 @@ import static com.fbenk.hangman.WordState.convertStringToChar;
 import static com.fbenk.hangman.WordState.getWordFromTextFile;
 
 public class GameFrame extends JFrame implements ActionListener {
-
+    
+    private static final int oneLetterLength = 1;
     private static JPanel belowPanel, bottomPanel;
     private static boolean isGameStarted;
     private static int wrongGuesses = 0;
@@ -116,7 +117,7 @@ public class GameFrame extends JFrame implements ActionListener {
             convertStringToChar();
             repaint();
         }
-        else if (cmd.length() == 1 && isGameStarted) {
+        else if (cmd.length() == oneLetterLength && isGameStarted) {
             if (getWordFromTextFile().contains(cmd)) {
                 for (int i = 0; i < WordState.getRandomWord().length; i++) {
                     if (cmd.charAt(0) == WordState.getRandomWord()[i]) {
